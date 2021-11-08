@@ -8,13 +8,15 @@ services:
     env_file: .env
     restart: always
   wordpress:
+    container_name: ${APP_ID}
+    expose:
+      - "80"
+
     depends_on:
       - db
     build: .
     volumes:
       - ${APP_ID}-wordpress-data:/var/www/html
-    ports:
-      - 8000:80
     restart: always
     env_file: .env
     environment:
@@ -26,6 +28,15 @@ services:
       VIRTUAL_PORT: 80
       LETSENCRYPT_HOST: ${HOSTNAME}
       LETSENCRYPT_EMAIL: ${EMAIL}
+    networks:
+      - proxy
+    restart: unless-stopped
+
 volumes:
   ${APP_ID}-db-data: {}
   ${APP_ID}-wordpress-data: {}
+
+networks:
+  proxy:
+    external:
+      name: nginx-proxy
