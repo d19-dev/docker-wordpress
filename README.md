@@ -1,2 +1,1 @@
-# api.solidleasing.ru
-Drupal JSONAPI for Gatsby project
+# https://github.com/d19-dev/docker-wordpress
